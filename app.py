@@ -102,6 +102,16 @@ def jaccard_similarity(str1, str2, n=1):
 df_conv_full = pd.read_csv('data/conv_full.csv')
 translator = Translator()
 
+okay_messages = [
+    'oh, okay',
+    'okay',
+    'thats nice',
+    'thats good',
+    'oh, good',
+    'oh, nice',
+    'yeah'
+]
+
 # Example messages list
 messages = [
     {"sender": "person_2", "content": "Hi there! I'm Jemmy, I would love to talk with you :D"}
@@ -111,21 +121,27 @@ messages = [
 def index():
     return render_template('chat.html', messages=messages)
 
+@app.route('/changelog')
+def change_log():
+    return render_template('changelog.html')
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     data = request.get_json()
     sender = data.get('sender')
     content = data.get('content')
+    client_messages = data.get('messages')
+    print(data.get('messages'))
     if sender and content:
         message = {'sender': sender, 'content': content}
-        messages.append(message)
+        # messages.append(message)
 
         content = content.lower()
 
         origin_lang = translator.detect(content).lang
 
         # Only English and Indonesia
-        if origin_lang != 'en' and origin_lang != 'id':
+        if False:
             response_text = "sorry, i only understand english and indonesia"
         else:
             if origin_lang != 'en':
@@ -142,17 +158,23 @@ def send_message():
             df_response = df_response.sort_values(by='jaro_winkler_similarity', ascending=False).reset_index(drop=True)
 
             best_similarity = df_response['jaro_winkler_similarity'].max()
-            df_response = df_response[df_response['jaro_winkler_similarity'] == best_similarity]
 
-            print(f"Response: {np.random.choice(df_response['answer'].values)}")
+            if best_similarity > 0.85:
+                df_response = df_response[df_response['jaro_winkler_similarity'] == best_similarity]
 
-            response_text = np.random.choice(df_response['answer'].values)
+                response_text = np.random.choice(df_response['answer'].values)
+            elif best_similarity > 0.7:
+                response_text = np.random.choice(okay_messages)
+            else:
+                response_text = "sorry, i dont understand your chat"
+
+            print(f"Response: {response_text}")
         
             response_text = translator.translate(response_text, dest=origin_lang).text.lower()
 
         response = {'sender': 'person_2', 'content': response_text}
 
-        messages.append(response)
+        client_messages.append(response)
         
         return jsonify({'status': 'success', 'message': message, 'response': response})
     return jsonify({'status': 'error'}), 400

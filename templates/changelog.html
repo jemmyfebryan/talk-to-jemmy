@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .changelog {
+            margin-top: 20px;
+        }
+        .changelog-entry {
+            margin-bottom: 20px;
+        }
+        .changelog-entry h2 {
+            color: #007BFF;
+        }
+        .changelog-entry h3 {
+            color: #333;
+            margin-top: 10px;
+        }
+        .changelog-entry ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .changelog-entry ul li {
+            margin-bottom: 5px;
+        }
+        p {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Talk to Jemmy Changelog</h1>
+        <div class="changelog">
+            <div class="changelog-entry">
+                <h2>v0.1.1 - 2024/05/19</h2>
+                <h3>Added:</h3>
+                <ul>
+                    <li>Added Changelog</li>
+                    <li>Added few basic conversation to dataset</li>
+                </ul>
+                <h3>Changed:</h3>
+                <ul>
+                    <li>Messages has it own instance of chat</li>
+                    <li>Model will not understand the chat when it has less than 85% similarity</li>
+                    <li>Model now will try to understand other language than english and indonesia</li>
+                </ul>
+            </div>
+            <div class="changelog-entry">
+                <h2>v0.1.0 - 2024/05/18</h2>
+                <h3>Created.</h3>
+                <h3>toj v0.1:</h3>
+                <p>Fastest conversation model trained with 94905 conversation data. Leveraging Jaccard Similarity and Jaro-winkler Similarity to choose the correct response. Jaccard Similarity is used to filter most of the conversation data, then Jaro-winkler Similarity will choose the best response from filtered conversation data.</p>
+            </div>
+            <!-- Add more entries as needed -->
+        </div>
+    </div>
+</body>
+</html>
